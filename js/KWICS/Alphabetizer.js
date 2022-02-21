@@ -14,11 +14,17 @@ export class Alphabetizer{
         this.#outputLines = Array();
     }
 
+    /**
+     * Gets the shifted lines from KWICSManager and alphabetizes them.
+     * Updates the KWICSManager's outputLines array
+     */
     process(){
         this.readLines();
+        // only alphabetize if there is more than one inputLine
         if(this.#inputLines.length > 1){
             this.alphabetize();
         }
+        // if there is only one inputLine, set outputLines and pass
         else{
             this.#outputLines = this.#inputLines;
         }
@@ -28,10 +34,18 @@ export class Alphabetizer{
         this.#outputLines.length = 0;
     }
 
+    /**
+     * gets the shifted lines from KWICSManager
+     */
     readLines(){
         this.#inputLines = [...this.#manager.getLines()];
     }
 
+/**
+ * alphabetizes the shifted inputLines in ascending order. 
+ * Lowercase characters are sorted before uppercase characters
+ * (eg: a < A)
+ */
     alphabetize(){
         this.#outputLines = this.#inputLines.sort(function(a,b){
             const values = [0,0];
@@ -59,6 +73,9 @@ export class Alphabetizer{
         });
     }
 
+    /**
+     * sets KWICSManager's outputLines array
+     */
     pass(){
         this.#manager.setLines([...this.#outputLines]);
     }
