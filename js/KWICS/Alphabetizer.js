@@ -1,53 +1,49 @@
+import { KWICSFilter } from "./KWICSFilter.js";
 
-export class Alphabetizer{
-    #manager;
-    #inputLines;
-    #outputLines;
-
+/**
+ * @extends KWICSFilter
+ */
+export class Alphabetizer extends KWICSFilter{
     /**
-     * 
-     * @param {KWICSManager} manager 
+     * @param {KWICSFilter} nextFilter
      */
-    constructor(manager){
-        this.#manager = manager;
-        this.#inputLines = Array();
-        this.#outputLines = Array();
+    constructor(){
+        super();
     }
 
     /**
-     * Gets the shifted lines from KWICSManager and alphabetizes them.
-     * Updates the KWICSManager's outputLines array
+     * Takes the shifted lines from the last filter and alphabetizes them.
+     * @param {string[]} inputLines
      */
-    process(){
-        this.readLines();
+    process(inputLines){
+        this.outputLines.length = 0;
+        this.#readLines(inputLines);
         // only alphabetize if there is more than one inputLine
-        if(this.#inputLines.length > 1){
-            this.alphabetize();
+        if(this.inputLines.length > 1){
+            this.#alphabetize();
         }
         // if there is only one inputLine, set outputLines and pass
         else{
-            this.#outputLines = this.#inputLines;
+            this.outputLines = this.inputLines;
         }
         
-        this.pass();
-        this.#inputLines.length = 0;
-        this.#outputLines.length = 0;
+        this.#pass();
     }
 
     /**
-     * gets the shifted lines from KWICSManager
+     * @param { string[]} inputLines
      */
-    readLines(){
-        this.#inputLines = [...this.#manager.getLines()];
+    #readLines(inputLines){
+        this.inputLines = [...inputLines];
     }
 
-/**
- * alphabetizes the shifted inputLines in ascending order. 
- * Lowercase characters are sorted before uppercase characters
- * (eg: a < A)
- */
-    alphabetize(){
-        this.#outputLines = this.#inputLines.sort(function(a,b){
+    /**
+     * alphabetizes the shifted inputLines in ascending order. 
+     * Lowercase characters are sorted before uppercase characters
+     * (eg: a < A)
+     */
+    #alphabetize(){
+        this.outputLines = this.inputLines.sort(function(a,b){
             const values = [0,0];
 
             var index = 0;
@@ -74,9 +70,9 @@ export class Alphabetizer{
     }
 
     /**
-     * sets KWICSManager's outputLines array
+     * passes alphabetized output to nextFilter
      */
-    pass(){
-        this.#manager.setLines([...this.#outputLines]);
+    #pass(){
+        super.getNextFilter().process([...this.outputLines]);
     }
 }

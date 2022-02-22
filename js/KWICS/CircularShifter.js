@@ -1,49 +1,45 @@
 
+import { KWICSFilter } from "./KWICSFilter.js";
 /**
  * Performs the Circular Shifts of the input keyword strings
+ * @extends KWICSFilter
  */
-export class CircularShifter{
-    #manager;
-    #inputLines;
-    #outputLines;
+export class CircularShifter extends KWICSFilter{
 
     /**
-     * 
-     * @param {KWICSManager} manager 
+     * @param {KWICSFilter} nextFilter
      */
-    constructor(manager){
-        this.#manager = manager;
-        this.#inputLines = Array();
-        this.#outputLines = Array();
+    constructor(nextFilter){
+        super();
+        super.nextFilter = nextFilter
     }
 
     /**
      * Gets the unshifted keyword lines, performs the shifting process, and 
      * updates the KWICSManager's outputLines array
+     * @param {string[]} inputLines
      */
-    process(){
-        this.readLines();
-        this.shiftLines();
-        this.pass();
-        
-        // clear the arrays
-        this.#inputLines.length = 0;
-        this.#outputLines.length = 0;
+    process(inputLines){
+        this.outputLines.length = 0;
+        this.#readLines(inputLines);
+        this.#shiftLines();
+        this.#pass();
     }
     
     /**
-     * Gets the unshifted keyword lines from KWICSManager
+     * Reads incoming input lines
+     * @param {string[]}
      */
-    readLines(){
-        this.#inputLines = [...this.#manager.getLines()];
+    #readLines(inputLines){
+        this.inputLines = inputLines;
     }
 
     /**
      * Coordinates the shifting of each keyword line
      */
-    shiftLines(){
-        this.#inputLines.forEach(line => {
-            this.shiftLine(line); 
+    #shiftLines(){
+        this.inputLines.forEach(line => {
+            this.#shiftLine(line);
         });
     }
 
@@ -51,7 +47,7 @@ export class CircularShifter{
      * Performs the actual shifting of the supplied keyword line
      * @param {string} line 
      */
-    shiftLine(line){
+    #shiftLine(line){
         // get the words in the line
         var words = line.split(' ');
         
@@ -63,19 +59,19 @@ export class CircularShifter{
 
                 var newLine = words.join(" ");
                 // push to outputlines
-                this.#outputLines.push(newLine);
+                this.outputLines.push(newLine);
             }  
         }
         // if line is a single word, push it to outputlines
         else{
-            this.#outputLines.push(line);
+            this.outputLines.push(line);
         }
     }
 
     /**
      * Passes the shifted keyword lines to the KWICSManager
      */
-    pass(){
-        this.#manager.setLines(this.#outputLines);
+    #pass(){
+        super.getNextFilter().process(this.outputLines);
     }
 }

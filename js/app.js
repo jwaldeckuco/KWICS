@@ -1,4 +1,4 @@
-/**]
+/**
  * app.js functions as the input and output modules for the KWIC system
  * Lines are not directly passed to the subcomponents of the KWIC system
  * but are passed to the KWICSManager component instead.
@@ -12,7 +12,6 @@ var newKeywordInput = document.getElementById('newKeywordInput');
 var currentKeywordsArea = document.getElementById('currentKeywordsArea');
 var resultsArea = document.getElementById('resultsArea');
 
-// dev only
 var keywords = Array();
 var results = Array();
 
@@ -26,6 +25,7 @@ keywordForm.addEventListener('submit', function (e) {
     // if newKeywordInput has a value, process
     if (keyword.length > 0) {
         readInput(keyword);
+        // getOutput();
         clearKeywordInput();
         updateKeywordsArea();
         updateResultsArea();
@@ -36,6 +36,7 @@ resetKeywordButton.addEventListener('click', function (e) {
     // clear keywords and results arrays
     keywords.length = 0;
     results.length = 0;
+    
     clearKeywordInput();
     updateKeywordsArea();
     updateResultsArea();
@@ -43,7 +44,7 @@ resetKeywordButton.addEventListener('click', function (e) {
 
 function readInput(line) {
     keywords.push(line); 
-    kwicsManager.process(keywords);
+    results = kwicsManager.input(keywords);
 }
 
 function clearKeywordInput() {
@@ -58,7 +59,6 @@ function updateKeywordsArea() {
 }
 
 function updateResultsArea() {
-    results = kwicsManager.getOutput();
     resultsArea.innerText = "";
 
     results.forEach(result => {

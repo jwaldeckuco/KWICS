@@ -1,4 +1,5 @@
 
+import { KWICSFilter } from "./KWICSFilter.js";
 import { CircularShifter } from "./CircularShifter.js";
 import { Alphabetizer } from "./Alphabetizer.js";
 
@@ -8,17 +9,27 @@ import { Alphabetizer } from "./Alphabetizer.js";
  * system. More filters can be added easily by instantiating them and then
  * calling their process() method in the process method below.
  */
-export class KWICSManager{
+export class KWICSManager extends KWICSFilter{
+    // filters
     #shifter;
     #alphabetizer;
-    #inputLines;
-    #outputLines;
 
     constructor(){
-        this.#shifter = new CircularShifter(this);
-        this.#alphabetizer = new Alphabetizer(this);
-        this.#inputLines = Array();
-        this.#outputLines = Array();  
+        super();
+        this.#shifter = new CircularShifter();
+        this.#alphabetizer = new Alphabetizer();
+
+        this.#shifter.setNextFilter(this.#alphabetizer);
+        this.#alphabetizer.setNextFilter(this);
+    }
+
+    input(lines){
+        super.inputLines = lines;
+        super.outputLines = [...lines];
+
+        this.#shifter.process([...this.outputLines]);
+
+        return [...this.outputLines];
     }
 
     /**
@@ -27,11 +38,11 @@ export class KWICSManager{
      * @param {string[]} lines 
      */
     process(lines){
-        this.#inputLines = lines;
-        this.#outputLines = [...lines];
+        this.outputLines = [...lines];
+    }
 
-        this.#shifter.process();
-        this.#alphabetizer.process();   
+    pass(){
+
     }
 
     /**
@@ -40,7 +51,7 @@ export class KWICSManager{
      * @returns {string[]}
      */
     getLines(){
-        return this.#outputLines;
+        return this.outputLines;
     }
 
     /**
@@ -49,7 +60,7 @@ export class KWICSManager{
      * @param {string[]} lines 
      */
     setLines(lines){
-        this.#outputLines = [...lines];
+        this.outputLines = [...lines];
     }
 
     /**
@@ -57,8 +68,8 @@ export class KWICSManager{
      * @returns {string[]}
      */
     getOutput(){
-        var output = [...this.#outputLines];
-        this.#outputLines.length = 0;
+        var output = [...this.outputLines];
+        this.outputLines.length = 0;
 
         return output;
     }
