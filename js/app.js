@@ -17,6 +17,15 @@ var results = Array();
 
 const kwicsManager = new KWICSManager();
 
+keywordForm.addEventListener('keyup', e => {
+    if(newKeywordInput.value == ""){
+        submitButton.disabled = true;
+    }
+    else{
+        submitButton.disabled = false;
+    }
+});
+
 keywordForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -29,6 +38,9 @@ keywordForm.addEventListener('submit', function (e) {
         clearKeywordInput();
         updateKeywordsArea();
         updateResultsArea();
+
+        resetKeywordButton.disabled = false;
+        submitButton.disabled = true;
     }
 });
 
@@ -40,6 +52,7 @@ resetKeywordButton.addEventListener('click', function (e) {
     clearKeywordInput();
     updateKeywordsArea();
     updateResultsArea();
+    resetKeywordButton.disabled = true;
 });
 
 function readInput(line) {
