@@ -64,6 +64,12 @@ class SetGetNextFilterTest extends Test{
             this.addFailedSubtest("get or set NextFilter failed");
         }
 
+        filter.setNextFilter(filter3);
+        if(filter.getNextFilter() != filter3 || filter.getNextFilter() == filter2){
+            this.addFailedSubtest("get or set NextFilter failed");
+        }
+
         return this.failedTests.length == 0;
     }
 }
+

@@ -1,81 +1,51 @@
 
-import { Test } from "./Test.js";
-import { FilterTest } from "./filterTest/filterTest.js";
 
-// export class Test{
-//     constructor(testTitle){
-//         this.testTitle = testTitle;
-//         this.passed = false;
-//         this.tests = Array();
-//         this.failedTests = Array();
-//     }
+export class Tester{
+    constructor(){
+        // super("Main Test");
 
-//     addSubtest(subtest){
-//         this.tests.push(subtest);
-//     }
+        // super.addSubtest(new FilterTest());
+        // super.addSubtest(new ManagerTest());
+        // super.addSubtest(new ShifterTest());
+        // super.addSubtest(new AlphabetizerTest());
 
-//     setupTest(){
-//         throw new Error("Test.setupTest should not be called directly");
-//     }
+        this.testInputs = [
+            "Software Architecture and Design",
+            "aA aaa",   
+            "aa Aaa",
+            "Aa Aaa",
+            "AA aaa",
+            "University of Central Oklahoma",
+            "univ of central OK"
+        ];
+        
+        this.expectedOutput = [
 
-//     test(){
-//         this.tests.forEach(subtest => {
-//             if(!subtest.test()){
-//                 this.failedTests.push(subtest.testTitle);
-//             }
-//         });
+        ]
 
-//         this.printResults();
+    }
 
-//         if(this.failedTests.length > 0){
-//             return false;
-//         }
-//         else{
-//             return true;
-//         }
-//     }
+    test(){
 
-//     printResults(){
-//         if(this.failedTests.length > 0){
-//             console.log(this.testTitle + " failed.  Failed tests: ");
-//             this.failedTests.forEach(subtest => {
-//                 console.log(subtest);
-//             });
+    }
+}
 
-//         }
-//         else{
-//             console.log(this.testTitle + " passed ");
-//         }
+
+// export class ManagerTest extends Test{
+//     constructor(){
+//         super("Manager Test");
 //     }
 // }
 
-export class Tester extends Test{
-    constructor(){
-        super("Main Test");
+// export class ShifterTest extends Test{
+//     constructor(){
+//         super("Shifter Test");
+//     }
+// }
 
-        super.addSubtest(new FilterTest());
-        super.addSubtest(new ManagerTest());
-        super.addSubtest(new ShifterTest());
-        super.addSubtest(new AlphabetizerTest());
-    }
-}
-
-
-export class ManagerTest extends Test{
-    constructor(){
-        super("Manager Test");
-    }
-}
-
-export class ShifterTest extends Test{
-    constructor(){
-        super("Shifter Test");
-    }
-}
-
-export class AlphabetizerTest extends Test{
-    constructor(){
-        super("Alphabetizer Test");
+// export class AlphabetizerTest extends Test{
+//     constructor(){
+//         super("Alphabetizer Test");
     
-    }
-}
+//     }
+// }
