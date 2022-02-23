@@ -4,7 +4,6 @@
  * but are passed to the KWICSManager component instead.
  */
 import { KWICSManager } from "./KWICS/KWICSManager.js";
-import { Tester } from "./tester/tester.js"
 
 var keywordForm = document.getElementById('keywordForm');
 var submitButton = document.getElementById('addKeywordButton');
@@ -18,10 +17,12 @@ const keywordList = document.getElementById('keywordList');
 var keywords = Array();
 var results = Array();
 
+const kwicsManager = new KWICSManager();
+
 // dev
 const dev = true;
 
-const kwicsManager = new KWICSManager();
+
 
 if(dev){
     const testKeywords = [
