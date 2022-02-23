@@ -4,6 +4,7 @@
  * but are passed to the KWICSManager component instead.
  */
 import { KWICSManager } from "./KWICS/KWICSManager.js";
+import { Tester } from "./tester/tester.js"
 
 var keywordForm = document.getElementById('keywordForm');
 var submitButton = document.getElementById('addKeywordButton');
@@ -12,8 +13,18 @@ var newKeywordInput = document.getElementById('newKeywordInput');
 var currentKeywordsArea = document.getElementById('currentKeywordsArea');
 var resultsArea = document.getElementById('resultsArea');
 
+const keywordList = document.getElementById('keywordList');
+
 var keywords = Array();
 var results = Array();
+
+// dev
+const dev = true;
+const tester = new Tester();
+
+if(dev){
+    tester.test();
+}
 
 const kwicsManager = new KWICSManager();
 
@@ -78,3 +89,5 @@ function updateResultsArea() {
         resultsArea.append(result + "\n");
     })
 }
+
+
